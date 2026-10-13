@@ -1,6 +1,6 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
 import { COMMANDS, systemPromptFor, type CommandId } from "@/lib/commands";
+import { generateWithGemma } from "@/lib/gemma";
 
 export const runtime = "nodejs";
 
@@ -30,22 +30,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const apiKey = process.env.GOOGLE_AI_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json(
-        {
-          error:
-            "Missing GOOGLE_AI_API_KEY. Add it in .env (or Render env vars) to call Gemma.",
-        },
-        { status: 503 }
-      );
-    }
-
-    const modelName = process.env.GEMMA_MODEL || "gemma-3-12b-it";
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: modelName });
-
-    // Gemma variants via Google AI may ignore systemInstruction — fold it into the user turn.
     const prompt = `${systemPromptFor(command)}
 
 Command: ${command}
@@ -53,32 +37,18 @@ Command: ${command}
 Freelancer notes:
 ${notes}`;
 
-    const result = await model.generateContent({
-      contents: [{ role: "user", parts: [{ text: prompt }] }],
-      generationConfig: {
-        temperature: 0.55,
-        maxOutputTokens: 2048,
-      },
-    });
-
-
-    const text = result.response.text()?.trim();
-    if (!text) {
-      return NextResponse.json(
-        { error: "Gemma returned an empty response. Try again." },
-        { status: 502 }
-      );
-    }
+    const { text, model } = await generateWithGemma(prompt);
 
     return NextResponse.json({
       text,
-      model: modelName,
+      model,
       command,
     });
   } catch (err) {
     const message =
       err instanceof Error ? err.message : "Unexpected error calling Gemma.";
     console.error("[basalt/generate]", message);
-    return NextResponse.json({ error: message }, { status: 500 });
+    const status = /Missing GOOGLE_AI_API_KEY/i.test(message) ? 503 : 500;
+    return NextResponse.json({ error: message }, { status });
   }
 }

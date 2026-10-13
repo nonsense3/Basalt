@@ -11,4 +11,4 @@ services:
       - key: GOOGLE_AI_API_KEY
         sync: false
       - key: GEMMA_MODEL
-        value: gemma-3-12b-it
+        value: gemma-4-26b-a4b-it

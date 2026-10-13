@@ -1,13 +1,7 @@
 import Link from "next/link";
 import Aurora from "@/components/Aurora";
-import {
-  SearchGlyph,
-  InvoiceIcon,
-  ProposalIcon,
-  MailIcon,
-  ScopeIcon,
-  ProductHuntMark,
-} from "@/components/OsGlyphs";
+import HeroCommandBar from "@/components/HeroCommandBar";
+import { ProductHuntMark } from "@/components/OsGlyphs";
 
 export default function HomePage() {
   return (
@@ -26,16 +20,34 @@ export default function HomePage() {
               <Link href="/workspace">Product</Link>
             </li>
             <li>
-              <a href="#how">Docs</a>
+              <Link href="/workspace">Workspace</Link>
             </li>
             <li>
-              <a href="#pricing">Pricing</a>
+              <a
+                href="https://github.com/nonsense3/Basalt"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Docs
+              </a>
             </li>
             <li>
-              <a href="#changelog">Changelog</a>
+              <a
+                href="https://github.com/nonsense3/Basalt#readme"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Changelog
+              </a>
             </li>
             <li>
-              <a href="#blog">Blog</a>
+              <a
+                href="https://dev.to/challenges/hacktoberfest-week2-2026-10-12"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Challenge
+              </a>
             </li>
           </ul>
 
@@ -81,59 +93,10 @@ export default function HomePage() {
         </div>
 
         <p className="install-caption">
-          Works in the browser — no install required
+          Type a command below or click a row — opens the live Gemma workspace
         </p>
 
-        <div className="command-bar" aria-label="Command bar preview">
-          <div className="cmd-input-row">
-            <SearchGlyph />
-            <div className="cmd-query">
-              invoice Acme $2,400 redesign
-              <span className="cmd-caret" />
-            </div>
-            <span className="mode-pill">Command</span>
-          </div>
-
-          <ul className="cmd-results">
-            <li className="cmd-row active">
-              <InvoiceIcon />
-              <span className="label">
-                Draft invoice{" "}
-                <span className="mono-arg">Acme · $2,400</span>
-              </span>
-              <span className="shortcut-chip">⌘↵</span>
-            </li>
-            <li className="cmd-row">
-              <ProposalIcon />
-              <span className="label">
-                Write proposal{" "}
-                <span className="mono-arg">~/briefs/acme.md</span>
-              </span>
-              <span className="shortcut-chip">⌘B</span>
-            </li>
-            <li className="cmd-row">
-              <MailIcon />
-              <span className="label">
-                Follow-up email{" "}
-                <span className="mono-arg">polite · 7 days late</span>
-              </span>
-              <span className="shortcut-chip">⌘O</span>
-            </li>
-            <li className="cmd-row">
-              <ScopeIcon />
-              <span className="label">
-                Scope the brief{" "}
-                <span className="mono-arg">pnpm estimate</span>
-              </span>
-              <span className="shortcut-chip">⌘K</span>
-            </li>
-          </ul>
-
-          <div className="cmd-footer">
-            <span>↑↓ navigate · enter open · esc dismiss</span>
-            <span>Basalt</span>
-          </div>
-        </div>
+        <HeroCommandBar />
 
         <Link href="/workspace" className="ghost-pill">
           Learn more →
@@ -142,8 +105,8 @@ export default function HomePage() {
         <aside className="ph-badge">
           <ProductHuntMark />
           <div>
-            <div className="rank">Featured on Product Hunt</div>
-            <div className="sub">#1 Product of the Day</div>
+            <div className="rank">Hacktoberfest Week 2</div>
+            <div className="sub">Side Hustle · Gemma + Render</div>
           </div>
         </aside>
       </div>

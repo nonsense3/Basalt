@@ -76,7 +76,7 @@ Also included:
 | Framework | **Next.js 15** (App Router) |
 | Language | **TypeScript** |
 | UI | Custom CSS (Inter + Geist Mono) — no purple “AI slop” palette |
-| AI | **Gemma** via `@google/generative-ai` (Google AI Studio) |
+| AI | **Gemma 4** via `@google/generative-ai` (Google AI Studio) |
 | Hosting | **Render** (`render.yaml` web service) |
 | Package manager | npm |
 
@@ -100,7 +100,7 @@ render.yaml               # Render Blueprint
 
 | Track | How Basalt uses it |
 | --- | --- |
-| **Best Use of Gemma** | All generation runs through open-weight Gemma (`gemma-3-12b-it` by default) |
+| **Best Use of Gemma** | All generation runs through open-weight Gemma 4 (`gemma-4-26b-a4b-it` by default) |
 | **Best Use of Render** | Deployed as a Node web service via `render.yaml` |
 
 Tags for the DEV submission: `#devchallenge` `#hf26challenge`
@@ -127,10 +127,10 @@ Edit `.env`:
 
 ```env
 GOOGLE_AI_API_KEY=your_key_from_aistudio
-GEMMA_MODEL=gemma-3-12b-it
+GEMMA_MODEL=gemma-4-26b-a4b-it
 ```
 
-Get a free key at [Google AI Studio](https://aistudio.google.com/apikey).
+Get a free key at [Google AI Studio](https://aistudio.google.com/apikey). Use a Gemma 4 model id your key can access (`gemma-4-26b-a4b-it` or `gemma-4-31b-it`).
 
 ### 3. Run
 
@@ -167,7 +167,7 @@ Hacktoberfest Render credits (if available): [hacktoberfest.com/my](https://hack
 | Variable | Required | Description |
 | --- | --- | --- |
 | `GOOGLE_AI_API_KEY` | Yes | Google AI Studio API key |
-| `GEMMA_MODEL` | No | Default `gemma-3-12b-it`. Also try `gemma-3-4b-it` or `gemma-3-27b-it` |
+| `GEMMA_MODEL` | No | Default `gemma-4-26b-a4b-it`. Also try `gemma-4-31b-it` |
 
 ---
 

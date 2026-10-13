@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import WorkspaceApp from "@/components/WorkspaceApp";
 
 export const metadata = {
@@ -6,5 +7,17 @@ export const metadata = {
 };
 
 export default function WorkspacePage() {
-  return <WorkspaceApp />;
+  return (
+    <Suspense
+      fallback={
+        <div className="workspace-shell">
+          <div className="workspace">
+            <p className="ws-meta">Loading workspace…</p>
+          </div>
+        </div>
+      }
+    >
+      <WorkspaceApp />
+    </Suspense>
+  );
 }

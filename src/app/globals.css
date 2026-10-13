@@ -439,29 +439,43 @@ button {
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
-.cmd-query {
+.cmd-live-input {
   flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
   font-size: 15px;
   font-weight: 400;
   color: var(--white);
-  display: flex;
-  align-items: center;
+  font-family: Inter, system-ui, sans-serif;
+  caret-color: var(--coral);
 }
 
-.cmd-caret {
-  display: inline-block;
-  width: 1.5px;
-  height: 1.05em;
-  background: var(--coral);
-  margin-left: 1px;
-  animation: blink 1s step-end infinite;
-  vertical-align: text-bottom;
+.cmd-live-input::placeholder {
+  color: rgba(156, 156, 157, 0.65);
 }
 
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
+.cmd-row-btn {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  font: inherit;
+  color: inherit;
+}
+
+.cmd-run-link {
+  color: rgba(255, 255, 255, 0.85);
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.cmd-run-link:hover {
+  color: var(--white);
 }
 
 .mode-pill {
