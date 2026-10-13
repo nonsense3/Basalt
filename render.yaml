@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: basalt
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: GOOGLE_AI_API_KEY
+        sync: false
+      - key: GEMMA_MODEL
+        value: gemma-3-12b-it
