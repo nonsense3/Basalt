@@ -1,3 +1,5 @@
+<div align="center">
+
 # Basalt
 
 **Freelancer command bar powered by open-weight Gemma.**
@@ -8,6 +10,8 @@ Basalt turns messy client notes into invoices, proposals, follow-ups, and scoped
 [![Gemma](https://img.shields.io/badge/Gemma-open--weight-FF6B4A)](https://ai.google.dev/gemma)
 [![Render](https://img.shields.io/badge/Deploy-Render-46E3B7?logo=render)](https://render.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+</div>
 
 ---
 
