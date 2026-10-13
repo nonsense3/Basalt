@@ -2,12 +2,12 @@
 
 # Basalt
 
-**Freelancer command bar powered by open-weight Gemma.**
+**Freelancer command bar powered by open-weight Gemma 4.**
 
 Basalt turns messy client notes into invoices, proposals, follow-ups, and scoped briefs — in one command. Built for the [Hacktoberfest Open-Source AI Challenge: Week 2 — Side Hustle](https://dev.to/challenges/hacktoberfest-week2-2026-10-12).
 
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
-[![Gemma](https://img.shields.io/badge/Gemma-open--weight-FF6B4A)](https://ai.google.dev/gemma)
+[![Gemma 4](https://img.shields.io/badge/Gemma_4-open--weight-4285F4?logo=google&logoColor=white)](https://ai.google.dev/gemma)
 [![Render](https://img.shields.io/badge/Deploy-Render-46E3B7?logo=render)](https://render.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -19,7 +19,7 @@ Basalt turns messy client notes into invoices, proposals, follow-ups, and scoped
 
 Freelancers rewrite the same invoices, proposals, and chase emails every week. Closed chatbots work until client data, cost, or lock-in gets in the way.
 
-Basalt keeps the workflow in a focused **command bar** and uses **Gemma** (Google’s open-weight model) so you can:
+Basalt keeps the workflow in a focused **command bar** and uses **Gemma 4** (Google’s open-weight model) so you can:
 
 - Swap model size via `GEMMA_MODEL` without rewriting the product  
 - Point the same prompts at a local Gemma later (Ollama / Edge)  
