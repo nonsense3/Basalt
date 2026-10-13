@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Aurora from "@/components/Aurora";
 import HeroCommandBar from "@/components/HeroCommandBar";
-import { ProductHuntMark } from "@/components/OsGlyphs";
 
 export default function HomePage() {
   return (
@@ -101,14 +100,6 @@ export default function HomePage() {
         <Link href="/workspace" className="ghost-pill">
           Learn more →
         </Link>
-
-        <aside className="ph-badge">
-          <ProductHuntMark />
-          <div>
-            <div className="rank">Hacktoberfest Week 2</div>
-            <div className="sub">Side Hustle · Gemma + Render</div>
-          </div>
-        </aside>
       </div>
     </main>
   );
