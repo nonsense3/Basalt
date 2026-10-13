@@ -11,12 +11,11 @@ export const GEMMA_FALLBACKS = [
 /** Strip accidental chain-of-thought if the model leaks planning text. */
 export function cleanModelOutput(raw: string): string {
   let text = raw.trim();
-  // Drop leading planning blocks that end before a clear document header
   const markers = [
     /\n(?=INVOICE\b)/i,
     /\n(?=BILL TO:)/i,
     /\n(?=Subject:)/i,
-    /\n(?=## )/ ,
+    /\n(?=## )/,
     /\n(?=Proposal\b)/i,
     /\n(?=Goals\b)/i,
   ];
@@ -30,7 +29,6 @@ export function cleanModelOutput(raw: string): string {
       }
     }
   }
-  // Remove common preamble lines
   text = text.replace(/^(okay[,.]?\s*)+/i, "").trim();
   return text;
 }
@@ -52,6 +50,32 @@ export function preferredModels(): string[] {
   return Array.from(new Set(list));
 }
 
+function isRetryable(message: string): boolean {
+  return /500|503|429|Internal error|unavailable|timeout|ECONNRESET|fetch failed/i.test(
+    message
+  );
+}
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function generateOnce(
+  genAI: GoogleGenerativeAI,
+  modelName: string,
+  prompt: string
+): Promise<string> {
+  const model = genAI.getGenerativeModel({ model: modelName });
+  const result = await model.generateContent({
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
+    generationConfig: {
+      temperature: 0.55,
+      maxOutputTokens: 2048,
+    },
+  });
+  return cleanModelOutput(result.response.text() ?? "");
+}
+
 export async function generateWithGemma(prompt: string): Promise<{
   text: string;
   model: string;
@@ -68,27 +92,39 @@ export async function generateWithGemma(prompt: string): Promise<{
   let lastError = "No Gemma model available.";
 
   for (const modelName of models) {
-    try {
-      const model = genAI.getGenerativeModel({ model: modelName });
-      const result = await model.generateContent({
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
-        generationConfig: {
-          temperature: 0.55,
-          maxOutputTokens: 2048,
-        },
-      });
-      const text = cleanModelOutput(result.response.text() ?? "");
-      if (!text) {
-        lastError = `${modelName} returned empty text.`;
-        continue;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        const text = await generateOnce(genAI, modelName, prompt);
+        if (!text) {
+          lastError = `${modelName} returned empty text.`;
+          break;
+        }
+        return { text, model: modelName };
+      } catch (err) {
+        lastError = err instanceof Error ? err.message : String(err);
+
+        if (/404|not found|not supported/i.test(lastError)) {
+          break; // try next model
+        }
+
+        if (isRetryable(lastError) && attempt < 2) {
+          await sleep(600 * (attempt + 1));
+          continue; // retry same model
+        }
+
+        if (isRetryable(lastError)) {
+          break; // exhausted retries — try next Gemma model
+        }
+
+        throw new Error(lastError);
       }
-      return { text, model: modelName };
-    } catch (err) {
-      lastError = err instanceof Error ? err.message : String(err);
-      // Try next fallback on 404 / unsupported model
-      if (/404|not found|not supported/i.test(lastError)) continue;
-      throw err;
     }
+  }
+
+  if (isRetryable(lastError)) {
+    throw new Error(
+      `Gemma is temporarily unavailable (Google 500). Wait a few seconds and try Run again. Details: ${lastError}`
+    );
   }
 
   throw new Error(lastError);
